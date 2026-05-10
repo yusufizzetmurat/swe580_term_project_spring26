@@ -53,10 +53,12 @@ python evaluator.py --api-key YOUR_KEY --config a
 python evaluator.py --api-key YOUR_KEY --config b
 ```
 
-**Inspect individual tool calls:**
+**Inspect individual tool calls during the run:**
 ```bash
 python evaluator.py --api-key YOUR_KEY --config a --verbose
 ```
+
+Each query result in the saved JSON files also contains a `"trace"` field — a round-by-round log of every tool called, the arguments passed, and the result returned. This is useful for debugging why a query succeeded or failed: you can follow exactly what the LLM did to arrive at its final response.
 
 ## What You Can Edit
 
