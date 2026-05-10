@@ -1,0 +1,92 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "search_notes",
+      "description": "Search notes in the vault.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Text to search for."
+          },
+          "tags": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Filter by tags."
+          },
+          "date_from": {
+            "type": "string",
+            "description": "Start date in YYYY-MM-DD format."
+          },
+          "date_to": {
+            "type": "string",
+            "description": "End date in YYYY-MM-DD format."
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_note",
+      "description": "Retrieve a specific note by path or title.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "File path of the note."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the note."
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_related_notes",
+      "description": "Find notes connected to a specific note through links.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "File path of the note."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the note."
+          },
+          "direction": {
+            "type": "string",
+            "enum": ["outgoing", "incoming", "both"],
+            "description": "Which links to return.",
+            "default": "both"
+          }
+        },
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_vault_overview",
+      "description": "Get vault statistics and recent notes.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+]
