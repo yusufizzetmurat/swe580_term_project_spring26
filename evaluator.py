@@ -65,10 +65,10 @@ def compute_metrics(extracted: list[str], expected: list[str]) -> dict:
 
     true_positives = extracted_set & expected_set
     precision = len(true_positives) / len(extracted_set) if extracted_set else 0.0
-    recall = len(true_positives) / effective_size
+    recall = min(len(true_positives) / effective_size, 1.0)
     f1 = 2 * precision * recall / (precision + recall) if precision + recall > 0 else 0.0
 
-    exact_match = (precision == 1.0 and len(true_positives) == effective_size)
+    exact_match = (precision == 1.0 and len(true_positives) >= effective_size)
 
     return {
         "exact_match": exact_match,
