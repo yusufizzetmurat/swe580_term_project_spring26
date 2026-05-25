@@ -3,14 +3,11 @@
     "type": "function",
     "function": {
       "name": "search_by_content",
-      "description": "Search notes by text content.",
+      "description": "Full text search across note content and title. Returns up to 10 matches. For multi filter queries combine this with the other search tools and intersect by path.",
       "parameters": {
         "type": "object",
         "properties": {
-          "query": {
-            "type": "string",
-            "description": "Text query to search for."
-          }
+          "query": {"type": "string", "description": "Free text search terms."}
         },
         "required": ["query"]
       }
@@ -20,14 +17,14 @@
     "type": "function",
     "function": {
       "name": "search_by_tags",
-      "description": "Search notes by tags.",
+      "description": "Find notes matching every given tag (AND logic, case insensitive). Returns up to 10. Example: search_by_tags(tags=['nlp','python']) gives notes tagged both nlp and python.",
       "parameters": {
         "type": "object",
         "properties": {
           "tags": {
             "type": "array",
             "items": {"type": "string"},
-            "description": "List of tags to filter by."
+            "description": "Tag names. All must match."
           }
         },
         "required": ["tags"]
@@ -38,18 +35,12 @@
     "type": "function",
     "function": {
       "name": "search_by_date",
-      "description": "Search notes by creation date range.",
+      "description": "Find notes created in a date range. For a single day, pass the same value as date_from and date_to.",
       "parameters": {
         "type": "object",
         "properties": {
-          "date_from": {
-            "type": "string",
-            "description": "Start date in YYYY-MM-DD format."
-          },
-          "date_to": {
-            "type": "string",
-            "description": "End date in YYYY-MM-DD format."
-          }
+          "date_from": {"type": "string", "description": "Inclusive lower bound, YYYY-MM-DD."},
+          "date_to": {"type": "string", "description": "Inclusive upper bound, YYYY-MM-DD."}
         },
         "required": ["date_from", "date_to"]
       }
@@ -59,14 +50,11 @@
     "type": "function",
     "function": {
       "name": "get_note_by_path",
-      "description": "Retrieve a note by its file path.",
+      "description": "Fetch one note's full content by exact path, for example research/Transformers.md.",
       "parameters": {
         "type": "object",
         "properties": {
-          "path": {
-            "type": "string",
-            "description": "File path of the note."
-          }
+          "path": {"type": "string", "description": "File path relative to vault root."}
         },
         "required": ["path"]
       }
@@ -76,14 +64,11 @@
     "type": "function",
     "function": {
       "name": "get_note_by_title",
-      "description": "Retrieve a note by its title.",
+      "description": "Fetch one note by title (filename without .md). Spaces and underscores both work. Use this first when you need the path for get_outgoing_links.",
       "parameters": {
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "description": "Title of the note."
-          }
+          "title": {"type": "string", "description": "For example Transformers or Self Attention."}
         },
         "required": ["title"]
       }
@@ -93,14 +78,11 @@
     "type": "function",
     "function": {
       "name": "get_outgoing_links",
-      "description": "Get notes that this note links to.",
+      "description": "Notes the source note links to via [[wiki-links]]. Use this for 'what does X reference' or 'what does X build on'. Requires the path.",
       "parameters": {
         "type": "object",
         "properties": {
-          "path": {
-            "type": "string",
-            "description": "File path of the source note."
-          }
+          "path": {"type": "string", "description": "Source note path."}
         },
         "required": ["path"]
       }
@@ -110,14 +92,11 @@
     "type": "function",
     "function": {
       "name": "get_incoming_links",
-      "description": "Get notes that link to this note.",
+      "description": "Notes that link to the given note (backlinks). Use this for 'what links to X', 'what references X', or 'what mentions X'. Pass the title without .md.",
       "parameters": {
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "description": "Title of the target note."
-          }
+          "title": {"type": "string", "description": "Target note title."}
         },
         "required": ["title"]
       }
@@ -127,7 +106,7 @@
     "type": "function",
     "function": {
       "name": "get_vault_stats",
-      "description": "Get vault statistics.",
+      "description": "Total notes, count per folder, full tag list. Only for vault level questions.",
       "parameters": {
         "type": "object",
         "properties": {},
@@ -139,14 +118,11 @@
     "type": "function",
     "function": {
       "name": "get_recent_notes",
-      "description": "Get recently modified notes.",
+      "description": "Most recently modified notes, newest first.",
       "parameters": {
         "type": "object",
         "properties": {
-          "limit": {
-            "type": "integer",
-            "description": "Number of notes to return."
-          }
+          "limit": {"type": "integer", "description": "How many to return. Default 10."}
         },
         "required": []
       }

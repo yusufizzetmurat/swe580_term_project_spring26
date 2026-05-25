@@ -3,26 +3,26 @@
     "type": "function",
     "function": {
       "name": "search_notes",
-      "description": "Search notes in the vault.",
+      "description": "Search the vault by any combination of content, tags, and creation date range. All parameters are optional, but pass at least one. You should combine filters in a single call rather than chaining narrow ones. For example: search_notes(query='attention', tags=['research'], date_from='2026-01-01', date_to='2026-01-31') returns research notes about attention from January 2026. Up to 10 notes come back, each with path, title, tags, created and modified dates, and folder.",
       "parameters": {
         "type": "object",
         "properties": {
           "query": {
             "type": "string",
-            "description": "Text to search for."
+            "description": "Free text searched in note content and title."
           },
           "tags": {
             "type": "array",
             "items": {"type": "string"},
-            "description": "Filter by tags."
+            "description": "Lowercase tag names. All must match (AND logic)."
           },
           "date_from": {
             "type": "string",
-            "description": "Start date in YYYY-MM-DD format."
+            "description": "Inclusive lower bound on creation date in YYYY-MM-DD."
           },
           "date_to": {
             "type": "string",
-            "description": "End date in YYYY-MM-DD format."
+            "description": "Inclusive upper bound on creation date in YYYY-MM-DD. For a single day, pass the same value as date_from."
           }
         },
         "required": []
@@ -33,18 +33,12 @@
     "type": "function",
     "function": {
       "name": "get_note",
-      "description": "Retrieve a specific note by path or title.",
+      "description": "Fetch a single note's full content. Pass either path or title. Title is the filename without .md, and spaces or underscores both work.",
       "parameters": {
         "type": "object",
         "properties": {
-          "path": {
-            "type": "string",
-            "description": "File path of the note."
-          },
-          "title": {
-            "type": "string",
-            "description": "Title of the note."
-          }
+          "path": {"type": "string", "description": "For example research/Transformers.md."},
+          "title": {"type": "string", "description": "For example Transformers or Self Attention."}
         },
         "required": []
       }
@@ -54,22 +48,16 @@
     "type": "function",
     "function": {
       "name": "get_related_notes",
-      "description": "Find notes connected to a specific note through links.",
+      "description": "Walk the [[wiki-link]] graph from a source note. direction='incoming' returns backlinks, meaning notes that link to this one. Use it for questions like 'what links to X' or 'what references X'. direction='outgoing' returns the notes this one links to, useful for 'what does X reference' or 'what does X build on'. direction='both' returns the union and is the right choice for 'connected to X' or 'related to X'.",
       "parameters": {
         "type": "object",
         "properties": {
-          "path": {
-            "type": "string",
-            "description": "File path of the note."
-          },
-          "title": {
-            "type": "string",
-            "description": "Title of the note."
-          },
+          "path": {"type": "string", "description": "Source note path."},
+          "title": {"type": "string", "description": "Source note title (filename without .md)."},
           "direction": {
             "type": "string",
             "enum": ["outgoing", "incoming", "both"],
-            "description": "Which links to return.",
+            "description": "Which side of the graph to traverse.",
             "default": "both"
           }
         },
@@ -81,7 +69,7 @@
     "type": "function",
     "function": {
       "name": "get_vault_overview",
-      "description": "Get vault statistics and recent notes.",
+      "description": "Vault stats and the five most recently modified notes. Only use this for open ended questions about the vault itself, not for normal searches.",
       "parameters": {
         "type": "object",
         "properties": {},

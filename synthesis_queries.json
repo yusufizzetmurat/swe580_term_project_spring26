@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "description": "Three queries that ask the assistant to create new notes referencing existing vault notes. Success = the file exists at the expected path, contains every required [[wiki-link]], and has the expected tags.",
+  "queries": [
+    {
+      "id": "s01",
+      "category": "synthesis",
+      "query": "Create a new note at projects/Attention_Summary.md titled Attention Summary. Give it a short two-sentence intro about attention research in the vault, then link to every research note tagged 'attention'. Tag the new note with summary and attention.",
+      "expected_path": "projects/Attention_Summary.md",
+      "must_link_to": ["Transformers", "Attention_Mechanisms", "Self_Attention"],
+      "expected_tags": ["summary", "attention"]
+    },
+    {
+      "id": "s02",
+      "category": "synthesis",
+      "query": "Write a cheat sheet note at reference/Python_Cheat_Sheet.md that pulls together my python-tagged reference notes. Short intro then a See also section with a wiki-link to each one. Tag it with reference and python.",
+      "expected_path": "reference/Python_Cheat_Sheet.md",
+      "must_link_to": ["Python_Tips", "Conda_Setup", "Numpy_Guide", "Pandas_Tips", "Matplotlib_Guide", "Jupyter_Tips"],
+      "expected_tags": ["reference", "python"]
+    },
+    {
+      "id": "s03",
+      "category": "synthesis",
+      "query": "Create a literature review note at research/Transformer_Lineage.md that traces the prerequisites of the Transformers note. Briefly describe how transformers build on prior attention research, then list wiki-links to the notes Transformers itself references. Tag it with literature-review and transformer.",
+      "expected_path": "research/Transformer_Lineage.md",
+      "must_link_to": ["Self_Attention", "Attention_Mechanisms"],
+      "expected_tags": ["literature-review", "transformer"]
+    }
+  ]
+}
